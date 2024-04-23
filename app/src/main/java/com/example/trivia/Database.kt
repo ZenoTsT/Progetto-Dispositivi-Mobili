@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Question::class], version = 1, exportSchema = false)
+@Database(entities = [Question::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun questionDao(): QuestionDao
 
@@ -19,7 +19,7 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "Domande.db"
                 )
-                    .createFromAsset("database/Domande.db")
+                    .createFromAsset("Domande.db")
                     .build().also { instance = it }
             }
         }
