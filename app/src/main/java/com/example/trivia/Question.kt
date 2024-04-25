@@ -18,4 +18,11 @@ data class Question (
 
     @ColumnInfo(name = "incorrect_answers")
     val incorrectAnswers: String
+
 )
+
+{
+    override fun toString(): String {
+        return "ID: $id, question: $question, correct answer: $correctAnswer, incorrect answers: $incorrectAnswers"
+    }
+}
