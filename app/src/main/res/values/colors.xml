@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- A dark shade of purple -->
+    <color name="dark_purple">#9C27B0</color>
+
+    <!-- A bright shade of orange -->
+    <color name="vivid_orange">#FF9800</color>
+
+    <!-- A bright shade of blue -->
+    <color name="bright_blue">#2196F3</color>
+
+    <!-- A light shade of cyan -->
+    <color name="light_cyan">#4DD0E1</color>
+
+    <!-- A very light shade of gray, almost white -->
+    <color name="light_gray">#F0F0F0</color>
+
+    <!-- A dark gray shade for text -->
+    <color name="dark_gray_text">#212121</color>
+
+    <!-- A medium shade of gray for less emphasized text -->
+    <color name="medium_gray">#737373</color>
+
+    <!-- A medium shade of gray for borders -->
+    <color name="medium_gray_border">#BDBDBD</color>
+
+    <!-- Default black and white colors -->
+    <color name="pure_black">#FF000000</color>
+    <color name="pure_white">#FFFFFFFF</color>
 </resources>
