@@ -13,7 +13,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="0dp"
         android:text="Trivia"
         android:textAlignment="center"
         android:textColor="@color/vivid_orange"
@@ -41,6 +42,7 @@
                 app:cardElevation="5dp">
 
                 <LinearLayout
+                    android:background="@color/pure_white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -49,7 +51,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Welcome"
+                        android:text="Add Players"
                         android:textAlignment="center"
                         android:textColor="@color/dark_purple"
                         android:textSize="30sp" />
@@ -60,7 +62,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginTop="8dp">
-                        <!-- Player name EditTexts will be added here dynamically -->
                     </LinearLayout>
 
                     <ImageButton

@@ -1,17 +1,16 @@
 package com.example.trivia
 
 import android.os.Bundle
-import android.widget.EditText
+import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
     private lateinit var playersContainer: LinearLayout
-    private var playerCount = 1
-    private val MAX_PLAYERS = 8 // Sostituisci con il numero massimo di giocatori che desideri
+    private var playerCount = 0
+    private val MAX_PLAYERS = 8 // Substitute with the maximum number of players you want
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,21 +26,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun addPlayerField() {
         if (playerCount < MAX_PLAYERS) {
-            val newPlayerInput = TextInputLayout(this).apply {
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                )
-            }
-
-            val newPlayerEditText = EditText(this).apply {
-                hint = "Name"
-                setTextColor(resources.getColor(R.color.dark_gray_text, null))
-                setHintTextColor(resources.getColor(R.color.medium_gray, null))
-            }
-
-            newPlayerInput.addView(newPlayerEditText)
-            playersContainer.addView(newPlayerInput)
+            val playerView = LayoutInflater.from(this).inflate(R.layout.player_name_input, playersContainer, false)
+            playersContainer.addView(playerView)
             playerCount++
         } else {
             Toast.makeText(this, "Maximum number of players reached", Toast.LENGTH_SHORT).show()
