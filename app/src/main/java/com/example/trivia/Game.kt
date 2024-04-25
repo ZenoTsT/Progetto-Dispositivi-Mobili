@@ -7,30 +7,51 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class Game(applicationContext: Context) {
+class Game private constructor() {
 
-    private val applicationContext: Context
-    private val questionsList =  ArrayList<Question>()
+    private lateinit var applicationContext: Context
 
-    init {
+    private val questionsList = ArrayList<Question>()
 
-        this.applicationContext = applicationContext
-        CoroutineScope(Dispatchers.Main).launch {
-            loadData()
-        }
+    private val playersList = ArrayList<Player>()
 
-    }
-
-    private suspend fun loadData() = withContext(Dispatchers.IO) {
-
+    private suspend fun initQuestionList() = withContext(Dispatchers.IO) {
         try {
             questionsList.addAll(AppDatabase.getInstance(applicationContext).questionDao().getAllQuestions())
-            withContext(Dispatchers.Main) {
-            }
         } catch (e: Exception) {
-            Log.e("GameActivity", "Error loading data", e)
+            Log.e("Game", "Error loading data", e)
         }
     }
 
+    private fun initPlayersList(players: ArrayList<String>){
+        for(name in players){
+            playersList.add(Player(name))
+        }
+    }
+
+    companion object {
+        @Volatile
+        private var INSTANCE: Game? = null
+
+        fun getInstance(): Game {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Game().also {
+                    INSTANCE = it
+                }
+            }
+        }
+    }
+
+    public fun setGame(context: Context, players: ArrayList<String>){
+
+        applicationContext = context
+
+        CoroutineScope(Dispatchers.Main).launch {
+            initQuestionList()
+        }
+
+        initPlayersList(players)
+
+    }
 
 }

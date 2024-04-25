@@ -55,9 +55,11 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             val intent = Intent(this, GameActivity::class.java)
-            //intent.putStringArrayListExtra("playerNames", playerNames)
+            val game = Game.getInstance()
+            game.setGame(applicationContext, playerNames)
             startActivity(intent)
         }
+
     }
 
     private fun extractPlayerNames(): ArrayList<String> {

@@ -8,7 +8,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        var game = Game(applicationContext)
+        var game = Game.getInstance()
 
     }
 }
