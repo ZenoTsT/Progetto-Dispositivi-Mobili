@@ -6,6 +6,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.random.Random
 
 class Game private constructor() {
 
@@ -15,6 +16,8 @@ class Game private constructor() {
 
     private val playersList = ArrayList<Player>()
 
+    private var turn = 0
+
     private suspend fun initQuestionList() = withContext(Dispatchers.IO) {
         try {
             questionsList.addAll(AppDatabase.getInstance(applicationContext).questionDao().getAllQuestions())
@@ -23,10 +26,13 @@ class Game private constructor() {
         }
     }
 
+
+
     private fun initPlayersList(players: ArrayList<String>){
         for(name in players){
             playersList.add(Player(name))
         }
+
     }
 
     companion object {
@@ -42,16 +48,44 @@ class Game private constructor() {
         }
     }
 
-    public fun setGame(context: Context, players: ArrayList<String>){
-
+    fun setGame(context: Context, players: ArrayList<String>, onQuestionsLoaded: () -> Unit) {
         applicationContext = context
 
         CoroutineScope(Dispatchers.Main).launch {
             initQuestionList()
+            onQuestionsLoaded()
         }
 
         initPlayersList(players)
+    }
 
+    public fun getQuestion(): Question? {
+
+        if(questionsList.size == 0){
+            return null
+        }else{
+            val randomIndex = Random.nextInt(questionsList.size)
+            val randomElement = questionsList[randomIndex]
+            questionsList.removeAt(randomIndex)
+            return  randomElement
+        }
+
+    }
+
+    public fun getCurrentPlayer(): Player {
+        return playersList[turn]
+    }
+
+    public fun getCurrentTurn(): Int {
+        return turn
+    }
+
+    public fun nextTurn() {
+        turn = (turn + 1) % playersList.size
+    }
+
+    public fun getLeadearboard(): ArrayList<Player> {
+        return ArrayList(playersList.sortedByDescending { it.getScore() })
     }
 
 }

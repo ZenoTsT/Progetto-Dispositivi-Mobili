@@ -54,10 +54,11 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Each player must have a unique name", Toast.LENGTH_LONG).show()
         }
         else {
-            val intent = Intent(this, GameActivity::class.java)
             val game = Game.getInstance()
-            game.setGame(applicationContext, playerNames)
-            startActivity(intent)
+            game.setGame(this, extractPlayerNames()) {
+                val intent = Intent(this, GameActivity::class.java)
+                startActivity(intent)
+            }
         }
 
     }

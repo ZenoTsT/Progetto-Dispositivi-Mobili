@@ -4,7 +4,7 @@
     <color name="dark_purple">#9C27B0</color>
 
     <!-- A bright shade of orange -->
-    <color name="vivid_orange">#FF9800</color>
+    <color name="lilla">#DAB2F7</color>
 
     <!-- A bright shade of blue -->
     <color name="bright_blue">#2196F3</color>
@@ -23,6 +23,10 @@
 
     <!-- A medium shade of gray for borders -->
     <color name="medium_gray_border">#BDBDBD</color>
+
+    <color name="correct_green">#61FF3D</color>
+
+    <color name="wrong_red">#FC3535</color>
 
     <!-- Default black and white colors -->
     <color name="pure_black">#FF000000</color>

@@ -14,4 +14,12 @@ class Player (name: String){
         this.score = this.score + pointsToAdd
     }
 
+    public fun getName(): String {
+        return name
+    }
+
+    public fun getScore(): Int {
+        return score
+    }
+
 }

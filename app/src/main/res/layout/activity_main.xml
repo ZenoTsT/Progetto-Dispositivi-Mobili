@@ -17,7 +17,7 @@
         android:layout_marginBottom="0dp"
         android:text="Trivia"
         android:textAlignment="center"
-        android:textColor="@color/vivid_orange"
+        android:textColor="@color/lilla"
         android:textSize="80sp"
         android:textStyle="bold" />
 
