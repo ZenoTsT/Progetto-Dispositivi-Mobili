@@ -31,4 +31,7 @@
     <!-- Default black and white colors -->
     <color name="pure_black">#FF000000</color>
     <color name="pure_white">#FFFFFFFF</color>
+    <color name="gold">#FFD700</color>
+    <color name="silver">#C0C0C0</color>
+    <color name="bronze">#CD7F32</color>
 </resources>

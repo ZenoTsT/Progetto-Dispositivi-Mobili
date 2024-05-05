@@ -1,11 +1,17 @@
 package com.example.trivia
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
 
 class GameActivity : AppCompatActivity() {
@@ -57,6 +63,11 @@ class GameActivity : AppCompatActivity() {
             checkAnswer(buttonAnswer4)
         }
 
+        val endGameButton = findViewById<Button>(R.id.end_game_button)
+        endGameButton.setOnClickListener {
+            showEndGameConfirmation()
+        }
+
         loadQuestion()
         loadPlayerTurn()
 
@@ -80,6 +91,7 @@ class GameActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             loadQuestion()
+            loadPlayerTurn()
             resetButtonColors()
         }, 1000)
     }
@@ -115,11 +127,51 @@ class GameActivity : AppCompatActivity() {
     private fun loadPlayerTurn(){
         currentPlayer = game.getCurrentPlayer()
         textViewCurrentPlayer.text = "It's your turn ${currentPlayer!!.getName()}"
+        game.nextTurn()
     }
 
     private fun openLeaderboard() {
-        var leaderBoardArrayList = game.getLeadearboard()
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_leaderboard)
+
+        val listView = dialog.findViewById<ListView>(R.id.leaderboard_list)
+        val closeButton = dialog.findViewById<Button>(R.id.close_button)
+
+        val leaderboard = game.getLeadearboard()
+        val adapter = LeaderboardAdapter(this, leaderboard)
+        listView.adapter = adapter
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
 
+    private fun showEndGameConfirmation() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.endgame_dialog, null)
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<Button>(R.id.btn_confirm).setOnClickListener {
+            openEndGameActivity()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+    private fun openEndGameActivity() {
+        // Here you could start a new activity or finish the current one
+        val intent = Intent(this, EndGameActivity::class.java) // Assuming you have an EndGameActivity
+        startActivity(intent)
+        finish()
+    }
 }
