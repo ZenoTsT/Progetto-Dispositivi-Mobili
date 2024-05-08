@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
@@ -10,17 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Leaderboard"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/medium_gray"
+        android:layout_marginBottom="20dp"
+        android:textSize="22sp"
         android:gravity="center"/>
 
     <ListView
         android:id="@+id/leaderboard_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_gray"/>
 
     <Button
         android:id="@+id/close_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Close" />
 </LinearLayout>

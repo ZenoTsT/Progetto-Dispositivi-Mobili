@@ -13,6 +13,11 @@
         android:theme="@style/Base.Theme.Trivia"
         tools:targetApi="31">
         <activity
+            android:name=".EndGameActivity"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
             android:name=".GameActivity"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustResize"

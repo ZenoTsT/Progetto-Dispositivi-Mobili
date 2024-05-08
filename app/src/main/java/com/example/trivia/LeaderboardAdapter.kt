@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 
-class LeaderboardAdapter(context: Context, players: List<Player>) : ArrayAdapter<Player>(context, 0, players) {
+class LeaderboardAdapter(context: Context, players: List<Player>, private val isEndGame: Boolean) : ArrayAdapter<Player>(context, 0, players) {
 
     private val goldColor = ContextCompat.getColor(context, R.color.gold)
     private val silverColor = ContextCompat.getColor(context, R.color.silver)
@@ -19,17 +19,26 @@ class LeaderboardAdapter(context: Context, players: List<Player>) : ArrayAdapter
 
         val currentPlayer = getItem(position)
         listItemView.findViewById<TextView>(R.id.rank).apply {
-            text = "${position + 1}"
-            setTextColor(when (position) {
-                0 -> ContextCompat.getColor(context, R.color.gold)
-                1 -> ContextCompat.getColor(context, R.color.silver)
-                2 -> ContextCompat.getColor(context, R.color.bronze)
+
+            var truePosition = 0
+            if(!isEndGame){
+                truePosition = position + 1
+            }else{
+                truePosition = position + 4
+            }
+
+            text = "${truePosition}"
+
+            setTextColor(when (truePosition) {
+                1 -> ContextCompat.getColor(context, R.color.gold)
+                2 -> ContextCompat.getColor(context, R.color.silver)
+                3 -> ContextCompat.getColor(context, R.color.bronze)
                 else -> ContextCompat.getColor(context, R.color.medium_gray)
             })
         }
 
         listItemView.findViewById<TextView>(R.id.player_name).text = currentPlayer?.getName()
-        listItemView.findViewById<TextView>(R.id.player_score).text = "${currentPlayer?.getScore()} punti"
+        listItemView.findViewById<TextView>(R.id.player_score).text = "${currentPlayer?.getScore()} points"
 
         return listItemView
     }

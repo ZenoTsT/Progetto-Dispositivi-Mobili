@@ -3,16 +3,24 @@ package com.example.trivia
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 
 class GameActivity : AppCompatActivity() {
 
@@ -74,9 +82,11 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun checkAnswer(selectedButton: Button) {
-        val correctAnswer = currentQuestion!!.getCorrectAnswerText()
 
+        val correctAnswer = currentQuestion!!.getCorrectAnswerText()
         val isCorrect = selectedButton.text.toString() == correctAnswer
+
+        disableButtons()
 
         if (isCorrect) {
             selectedButton.setBackgroundColor(getColor(R.color.correct_green))
@@ -93,7 +103,20 @@ class GameActivity : AppCompatActivity() {
             loadQuestion()
             loadPlayerTurn()
             resetButtonColors()
+            enableButtons()
         }, 1000)
+
+
+    }
+
+    private fun disableButtons() {
+        val buttons = listOf(buttonAnswer1, buttonAnswer2, buttonAnswer3, buttonAnswer4)
+        buttons.forEach { it.isEnabled = false }
+    }
+
+    private fun enableButtons() {
+        val buttons = listOf(buttonAnswer1, buttonAnswer2, buttonAnswer3, buttonAnswer4)
+        buttons.forEach { it.isEnabled = true }
     }
 
     private fun resetButtonColors() {
@@ -105,7 +128,7 @@ class GameActivity : AppCompatActivity() {
         currentQuestion = game.getQuestion()
 
         if(currentQuestion == null){
-            //ENDGAME
+            openEndGameActivity()
         }else{
             textViewQuestion.text = currentQuestion!!.getQuestionText()
             val correctAnswer = currentQuestion!!.getCorrectAnswerText()
@@ -124,21 +147,38 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadPlayerTurn(){
+    private fun loadPlayerTurn() {
         currentPlayer = game.getCurrentPlayer()
-        textViewCurrentPlayer.text = "It's your turn ${currentPlayer!!.getName()}"
-        game.nextTurn()
+
+        val playerName = currentPlayer!!.getName()
+        val text = "It's your turn: $playerName!"
+        val spannable = SpannableString(text)
+
+        val colorSpan = ForegroundColorSpan(ContextCompat.getColor(applicationContext, R.color.pure_black))
+        val styleSpan = StyleSpan(Typeface.BOLD)
+
+        val playerNameStart = "It's your turn: ".length
+        spannable.setSpan(colorSpan, playerNameStart, playerNameStart + playerName.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+        spannable.setSpan(styleSpan, playerNameStart, playerNameStart + playerName.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+
+        textViewCurrentPlayer.text = spannable
+        textViewCurrentPlayer.setTextColor(ContextCompat.getColor(applicationContext, R.color.medium_gray))
+
     }
+
+
 
     private fun openLeaderboard() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_leaderboard)
 
+        dialog.window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(applicationContext, R.color.light_gray)))
+
         val listView = dialog.findViewById<ListView>(R.id.leaderboard_list)
         val closeButton = dialog.findViewById<Button>(R.id.close_button)
 
-        val leaderboard = game.getLeadearboard()
-        val adapter = LeaderboardAdapter(this, leaderboard)
+        val leaderboard = game.getLeaderboard()
+        val adapter = LeaderboardAdapter(this, leaderboard, false)
         listView.adapter = adapter
 
         closeButton.setOnClickListener {
@@ -169,8 +209,7 @@ class GameActivity : AppCompatActivity() {
 
 
     private fun openEndGameActivity() {
-        // Here you could start a new activity or finish the current one
-        val intent = Intent(this, EndGameActivity::class.java) // Assuming you have an EndGameActivity
+        val intent = Intent(this, EndGameActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -84,7 +84,7 @@ class Game private constructor() {
         turn = (turn + 1) % playersList.size
     }
 
-    public fun getLeadearboard(): ArrayList<Player> {
+    public fun getLeaderboard(): ArrayList<Player> {
         return ArrayList(playersList.sortedByDescending { it.getScore() })
     }
 

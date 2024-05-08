@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:orientation="horizontal"
-    android:background="@color/pure_white">
+    android:background="@color/light_gray">
 
     <TextView
         android:id="@+id/rank"
@@ -12,18 +12,21 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/medium_gray"/>
 
     <TextView
         android:id="@+id/player_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:textColor="@color/medium_gray"/>
 
     <TextView
         android:id="@+id/player_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"/>
+        android:textSize="18sp"
+        android:textColor="@color/medium_gray"/>
 </LinearLayout>

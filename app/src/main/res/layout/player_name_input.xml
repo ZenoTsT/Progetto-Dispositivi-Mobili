@@ -8,5 +8,6 @@
     android:background="@color/pure_white"
     android:hint="Name"
     android:textColorHint="@color/medium_gray"
+    android:textColor="@color/medium_gray"
     android:inputType="textPersonName"
     android:padding="16dp"/>

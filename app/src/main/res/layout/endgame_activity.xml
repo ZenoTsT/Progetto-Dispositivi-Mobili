@@ -1,6 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/light_gray">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="60sp"
+        android:text="Final Score"
+        android:textColor="@color/lilla"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"/>
+
+    <!-- First Place Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@color/light_gray"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/rank_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/gold"
+            android:text="1"/>
+
+        <TextView
+            android:id="@+id/player_name_first"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:textColor="@color/gold"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/player_score_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="@color/gold"/>
+    </LinearLayout>
+
+    <!-- Second Place Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@color/light_gray"
+        android:layout_marginTop="35dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/rank_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/silver"
+            android:text="2"/>
+
+        <TextView
+            android:id="@+id/player_name_second"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="22sp"
+            android:textColor="@color/silver"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/player_score_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textColor="@color/silver"/>
+    </LinearLayout>
+
+    <!-- Third Place Layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@color/light_gray"
+        android:layout_marginTop="40dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/rank_third"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/bronze"
+            android:text="3"/>
+
+        <TextView
+            android:id="@+id/player_name_third"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@color/bronze"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/player_score_third"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/bronze"/>
+    </LinearLayout>
+
+    <!-- Remaining Leaderboard List -->
+    <ListView
+        android:id="@+id/leaderboard_list"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"/>
+
+    <!-- Home Button -->
+    <Button
+        android:id="@+id/button_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="35dp"
+        android:gravity="center"/>
+
+</LinearLayout>
