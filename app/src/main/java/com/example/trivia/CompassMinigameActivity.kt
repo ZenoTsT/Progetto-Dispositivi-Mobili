@@ -28,6 +28,8 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
     private var targetAngle = 0.0f
     private var tolerance = 10.0f
 
+    private var direction = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass_minigame)
@@ -66,13 +68,11 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
             SensorManager.getRotationMatrixFromVector(rotationMatrix, event.values)
             SensorManager.getOrientation(rotationMatrix, currentOrientation)
 
-            // Convert azimuth from radians to degrees and adjust for portrait mode
             currentAzimuth = Math.toDegrees(currentOrientation[0].toDouble()).toFloat()
             if (currentAzimuth < 0) {
                 currentAzimuth += 360
             }
 
-            // Correct the azimuth for portrait orientation
             currentAzimuth = currentAzimuth % 360
 
             // Round azimuth to nearest integer
@@ -91,18 +91,25 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun generateNewInstruction() {
+
+        currentAzimuth = 0.0f
+
         val isClockwise = (0..100).random()
-        val direction = if (isClockwise < 50) "clockwise" else "counter clockwise"
+        direction = if (isClockwise < 50) "clockwise" else "counter clockwise"
         val angle = (20..340).random()
         instructionTextView.text = "Turn your phone $direction by $angle degrees"
 
-        targetAngle = if (direction == "clockwise") {
-            (currentAzimuth + angle) % 360
+        if (direction == "clockwise") {
+            targetAngle = (currentAzimuth + angle) % 360
         } else {
-            (currentAzimuth - angle + 360) % 360
+            targetAngle = (currentAzimuth - angle + 360) % 360
         }
 
-        // Round target angle to nearest integer
+        if (targetAngle < 0) {
+            targetAngle += 360
+        }
+        targetAngle = targetAngle % 360
+
         targetAngle = round(targetAngle).toInt().toFloat()
     }
 
@@ -112,9 +119,17 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
 
         val angleDifference = abs(roundedAzimuth - roundedTargetAngle)
         if (angleDifference <= tolerance || abs(angleDifference - 360) <= tolerance) {
-            resultTextView.text = "You win! Angle: $roundedAzimuth"
+            if(direction == "clockwise"){
+                resultTextView.text = "You win! Angle: $roundedAzimuth, target: $targetAngle"
+            }else{
+                resultTextView.text = "You win! Angle: ${abs(roundedAzimuth - 360)}, target: ${abs(targetAngle - 360)}"
+            }
         } else {
-            resultTextView.text = "You Lose. Angle: $roundedAzimuth"
+            if(direction == "clockwise"){
+                resultTextView.text = "You lose. Angle: $roundedAzimuth, target: $targetAngle"
+            }else{
+                resultTextView.text = "You lose. Angle: ${abs(roundedAzimuth - 360)}, target: ${abs(targetAngle - 360)}"
+            }
         }
         generateNewInstruction()
     }

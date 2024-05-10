@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startGame() {
 
-        val intent = Intent(this, CompassMinigameActivity::class.java)
+        val intent = Intent(this, BalancingGameActivity::class.java)
         startActivity(intent)
 
         /*val playerNames: ArrayList<String> = extractPlayerNames()
