@@ -10,16 +10,18 @@
         android:id="@+id/instructionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:layout_marginHorizontal="50dp"
         android:layout_marginTop="15dp"
         android:gravity="center"
-        android:textColor="@color/medium_gray"/>
+        android:textColor="@color/medium_gray"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/resultTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="26sp"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textColor="@color/medium_gray"/>

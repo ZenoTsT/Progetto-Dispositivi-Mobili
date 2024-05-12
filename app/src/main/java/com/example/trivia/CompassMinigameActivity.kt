@@ -97,7 +97,7 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         val isClockwise = (0..100).random()
         direction = if (isClockwise < 50) "clockwise" else "counter clockwise"
         val angle = (20..340).random()
-        instructionTextView.text = "Turn your phone $direction by $angle degrees"
+        instructionTextView.text = "Turn $angle°\n$direction"
 
         if (direction == "clockwise") {
             targetAngle = (currentAzimuth + angle) % 360
@@ -120,15 +120,15 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         val angleDifference = abs(roundedAzimuth - roundedTargetAngle)
         if (angleDifference <= tolerance || abs(angleDifference - 360) <= tolerance) {
             if(direction == "clockwise"){
-                resultTextView.text = "You win! Angle: $roundedAzimuth, target: $targetAngle"
+                resultTextView.text = "You won! Your angle: $roundedAzimuth°"
             }else{
-                resultTextView.text = "You win! Angle: ${abs(roundedAzimuth - 360)}, target: ${abs(targetAngle - 360)}"
+                resultTextView.text = "You won! Your angle: ${abs(roundedAzimuth - 360)}°"
             }
         } else {
             if(direction == "clockwise"){
-                resultTextView.text = "You lose. Angle: $roundedAzimuth, target: $targetAngle"
+                resultTextView.text = "You lost. Your angle: $roundedAzimuth°"
             }else{
-                resultTextView.text = "You lose. Angle: ${abs(roundedAzimuth - 360)}, target: ${abs(targetAngle - 360)}"
+                resultTextView.text = "You lost. Your angle: ${abs(roundedAzimuth - 360)}°"
             }
         }
         generateNewInstruction()

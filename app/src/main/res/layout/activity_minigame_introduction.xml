@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/light_gray"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="70sp"
+        android:textColor="@color/lilla"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="Minigame!"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/introTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_marginTop="30dp"
+            android:textColor="@color/medium_gray"
+            android:layout_gravity="center"
+            android:text="Rules"
+            android:textAlignment="center"
+            android:layout_marginBottom="40dp"/>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/gotItButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Got it"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/lilla"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

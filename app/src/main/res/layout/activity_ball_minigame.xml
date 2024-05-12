@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/light_gray">
+
+    <ImageView
+        android:id="@+id/ballImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ball"
+        android:contentDescription="Ball" />
+
+    <!-- Canestri -->
+    <ImageView
+        android:id="@+id/backboard1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/backboard"
+        android:contentDescription="Backboard 1" />
+
+    <ImageView
+        android:id="@+id/backboard2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/backboard"
+        android:contentDescription="Backboard 2" />
+
+    <ImageView
+        android:id="@+id/backboard3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/backboard"
+        android:contentDescription="Backboard 3" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Timer"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="16dp"
+        android:textColor="@color/medium_gray"/>
+
+</RelativeLayout>

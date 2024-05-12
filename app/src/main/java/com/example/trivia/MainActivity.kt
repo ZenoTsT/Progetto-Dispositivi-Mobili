@@ -2,7 +2,6 @@ package com.example.trivia
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
@@ -10,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Database
 
 class MainActivity : AppCompatActivity() {
     private lateinit var playersContainer: LinearLayout
@@ -46,7 +44,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun startGame() {
 
-        val intent = Intent(this, BalancingGameActivity::class.java)
+
+        val intent = Intent(this, MinigameIntroductionActivity::class.java)
+
+        intent.putExtra("minigameName", "ball")
+        //intent.putExtra("minigameName", "compass")
+
         startActivity(intent)
 
         /*val playerNames: ArrayList<String> = extractPlayerNames()
