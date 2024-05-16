@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <!-- Testo delle istruzioni -->
+    <TextView
+        android:id="@+id/instructionTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:textColor="@color/medium_gray"
+        android:textStyle="bold"
+        android:text="Take a photo of something" />
+
+    <!-- Testo del risultato -->
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textColor="@color/medium_gray"
+        android:visibility="gone" />
+
+    <!-- Layout per mostrare l'immagine catturata -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imgPhoto"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:contentDescription="Captured photo"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <!-- Pulsante per scattare la foto -->
+    <Button
+        android:id="@+id/btnTakePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take Photo"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/lilla"
+        android:layout_gravity="center" />
+</LinearLayout>

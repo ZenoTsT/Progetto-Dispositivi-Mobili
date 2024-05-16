@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,10 +22,15 @@
         android:theme="@style/Base.Theme.Trivia"
         tools:targetApi="31">
         <activity
-            android:name=".MinigameIntroductionActivity"
+            android:name=".PhotoMinigameActivity"
             android:exported="false"
             android:theme="@style/NoActionBar"
             android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".MinigameIntroductionActivity"
+            android:exported="false"
+            android:theme="@style/NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".BallMinigameActivity"
             android:exported="false"

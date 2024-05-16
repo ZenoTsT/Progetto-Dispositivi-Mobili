@@ -1,11 +1,14 @@
 package com.example.trivia
 
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,6 +17,7 @@ import kotlin.math.round
 
 class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
 
+    private lateinit var game: Game
     private lateinit var sensorManager: SensorManager
     private var rotationVectorSensor: Sensor? = null
     private var currentOrientation = FloatArray(3)
@@ -33,6 +37,8 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass_minigame)
+
+        game = Game.getInstance()
 
         instructionTextView = findViewById(R.id.instructionTextView)
         resultTextView = findViewById(R.id.resultTextView)
@@ -117,20 +123,27 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         val roundedAzimuth = round(currentAzimuth).toInt()
         val roundedTargetAngle = round(targetAngle).toInt()
 
+        confirmButton.isEnabled = false
+
         val angleDifference = abs(roundedAzimuth - roundedTargetAngle)
         if (angleDifference <= tolerance || abs(angleDifference - 360) <= tolerance) {
-            if(direction == "clockwise"){
-                resultTextView.text = "You won! Your angle: $roundedAzimuth°"
-            }else{
-                resultTextView.text = "You won! Your angle: ${abs(roundedAzimuth - 360)}°"
-            }
+            resultTextView.text = "You win!"
+            val lastPlayer = game.getLeaderboard().size - 1
+            game.getLeaderboard()[lastPlayer].addPoints(2)
+
         } else {
-            if(direction == "clockwise"){
-                resultTextView.text = "You lost. Your angle: $roundedAzimuth°"
-            }else{
-                resultTextView.text = "You lost. Your angle: ${abs(roundedAzimuth - 360)}°"
-            }
+            resultTextView.text = "You lose"
         }
-        generateNewInstruction()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            returnToGameActivity()
+        }, 2000)
+
     }
+
+    private fun returnToGameActivity(){
+        val intent = Intent(this, GameActivity::class.java)
+        startActivity(intent)
+    }
+
 }

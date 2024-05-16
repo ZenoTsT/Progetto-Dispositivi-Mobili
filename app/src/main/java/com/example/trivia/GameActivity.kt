@@ -17,10 +17,12 @@ import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import kotlin.random.Random
 
 class GameActivity : AppCompatActivity() {
 
@@ -36,6 +38,8 @@ class GameActivity : AppCompatActivity() {
     private var currentQuestion: Question? = null
 
     private var currentPlayer: Player? = null
+
+    private val minigameList: ArrayList<String> = arrayListOf("compass","ball","photo")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,13 +103,20 @@ class GameActivity : AppCompatActivity() {
 
         game.nextTurn()
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            loadQuestion()
-            loadPlayerTurn()
-            resetButtonColors()
-            enableButtons()
-        }, 1000)
-
+        if(game.getCurrentTurn() % game.getLeaderboard().size == 0){
+            val randomIndex = Random.nextInt(minigameList.size)
+            val randomGame = minigameList[randomIndex]
+            val intent = Intent(this, MinigameIntroductionActivity::class.java)
+            intent.putExtra("minigameName", randomGame)
+            startActivity(intent)
+        }else{
+            Handler(Looper.getMainLooper()).postDelayed({
+                loadQuestion()
+                loadPlayerTurn()
+                resetButtonColors()
+                enableButtons()
+            }, 1000)
+        }
 
     }
 

@@ -3,6 +3,7 @@ package com.example.trivia
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -21,19 +22,25 @@ class EndGameActivity : AppCompatActivity() {
     private lateinit var thirdPlaceScoreTextView: TextView
     private lateinit var leaderboardList: ListView
     private lateinit var homeButton: Button
-
+    private lateinit var restartButton: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.endgame_activity)
 
         homeButton = findViewById(R.id.button_home)
+        restartButton = findViewById(R.id.button_restart)
 
         game = Game.getInstance()
         initViews()
         updatePodium()
         setupLeaderboard()
+
         homeButton.setOnClickListener {
             toHomePage()
+        }
+
+        restartButton.setOnClickListener {
+            restartGame()
         }
     }
 
@@ -76,7 +83,25 @@ class EndGameActivity : AppCompatActivity() {
     }
 
     private fun toHomePage() {
+        disableButtons()
+        game.resetGame()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
+
+    private fun restartGame(){
+        disableButtons()
+        val playerNames = game.getPlayerList().map { it.getName() }.toCollection(ArrayList())
+        game.resetGame()
+        game.setGame(this, playerNames) {
+            val intent = Intent(this, GameActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun disableButtons() {
+        val buttons = listOf(homeButton, restartButton)
+        buttons.forEach { it.isEnabled = false }
+    }
+
 }

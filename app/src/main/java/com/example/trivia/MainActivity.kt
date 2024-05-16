@@ -44,15 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startGame() {
 
-
-        val intent = Intent(this, MinigameIntroductionActivity::class.java)
-
-        intent.putExtra("minigameName", "ball")
-        //intent.putExtra("minigameName", "compass")
-
-        startActivity(intent)
-
-        /*val playerNames: ArrayList<String> = extractPlayerNames()
+        val playerNames: ArrayList<String> = extractPlayerNames()
 
         if (!hasMultiplePlayers(playerNames)) {
             Toast.makeText(this, "At least two players are needed to start the game", Toast.LENGTH_LONG).show()
@@ -66,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, GameActivity::class.java)
                 startActivity(intent)
             }
-        }*/
+        }
 
     }
 

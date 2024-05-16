@@ -1,5 +1,6 @@
 package com.example.trivia
 
+import android.content.Intent
 import android.graphics.Rect
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -8,6 +9,8 @@ import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -17,9 +20,11 @@ import kotlin.random.Random
 
 class BallMinigameActivity : AppCompatActivity(), SensorEventListener {
 
+    private lateinit var game: Game
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
     private lateinit var ballImageView: ImageView
+    private lateinit var resultTextView: TextView
     private lateinit var scoreTextView: TextView
 
     private var xPos = 0f
@@ -34,7 +39,10 @@ class BallMinigameActivity : AppCompatActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_ball_minigame)
 
+        game = Game.getInstance()
+
         ballImageView = findViewById(R.id.ballImageView)
+        resultTextView = findViewById(R.id.resultTextView)
         scoreTextView = findViewById(R.id.scoreTextView)
 
         // Inizializza i canestri
@@ -74,9 +82,22 @@ class BallMinigameActivity : AppCompatActivity(), SensorEventListener {
 
     private fun endGame() {
         sensorManager.unregisterListener(this)
-        Toast.makeText(this, "Game Over! Score: $score", Toast.LENGTH_LONG).show()
-        // Logica di fine gioco
+
+        if (score == 3) {
+            val lastPlayer = game.getLeaderboard().size - 1
+            game.getLeaderboard()[lastPlayer].addPoints(2)
+            resultTextView.text = "You win!"
+        } else {
+            resultTextView.text = "You lose!"
+        }
+
+        resultTextView.visibility = View.VISIBLE // Rendi visibile il TextView
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            returnToGameActivity()
+        }, 2000)
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -133,12 +154,14 @@ class BallMinigameActivity : AppCompatActivity(), SensorEventListener {
 
                     // Verifica se tutti i canestri sono stati presi
                     if (score == backboards.size) {
-                        endGame()
+                        gameTimer.cancel()  // Annulla il timer
+                        gameTimer.onFinish() // Chiama onFinish per terminare il gioco immediatamente
                     }
                 }
             }
         }
     }
+
 
     private fun View.frameRect() = Rect().apply {
         getHitRect(this)
@@ -196,4 +219,10 @@ class BallMinigameActivity : AppCompatActivity(), SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // Implementare se necessario
     }
+
+    private fun returnToGameActivity(){
+        val intent = Intent(this, GameActivity::class.java)
+        startActivity(intent)
+    }
+
 }

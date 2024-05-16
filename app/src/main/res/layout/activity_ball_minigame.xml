@@ -41,6 +41,7 @@
         android:src="@drawable/backboard"
         android:contentDescription="Backboard 3" />
 
+
     <TextView
         android:id="@+id/scoreTextView"
         android:layout_width="wrap_content"
@@ -53,5 +54,17 @@
         android:layout_marginTop="15dp"
         android:paddingBottom="16dp"
         android:textColor="@color/medium_gray"/>
+
+    <!-- Testo del risultato -->
+    <TextView
+        android:id="@+id/resultTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:layout_marginTop="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/medium_gray"
+        android:visibility="gone" />
 
 </RelativeLayout>
