@@ -20,11 +20,14 @@ class Game private constructor() {
 
     private suspend fun initQuestionList() = withContext(Dispatchers.IO) {
         try {
+            Log.d("Game", "Loading questions from database")
             questionsList.addAll(AppDatabase.getInstance(applicationContext).questionDao().getAllQuestions())
+            Log.d("Game", "Questions loaded successfully")
         } catch (e: Exception) {
             Log.e("Game", "Error loading data", e)
         }
     }
+
 
 
 

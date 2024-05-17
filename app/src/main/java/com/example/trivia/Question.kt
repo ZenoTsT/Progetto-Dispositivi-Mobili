@@ -32,7 +32,7 @@ class Question (
     }
 
     public fun getIncorrectAnswersText(): ArrayList<String> {
-        val regex = Pattern.compile("'([^']*)'")
+        val regex = Pattern.compile("\"([^\"]*)\"")
         val matcher = regex.matcher(incorrectAnswers)
         val results = ArrayList<String>()
 
