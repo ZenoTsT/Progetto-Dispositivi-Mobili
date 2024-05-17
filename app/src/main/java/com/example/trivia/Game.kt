@@ -18,6 +18,7 @@ class Game private constructor() {
 
     private var turn = 0
 
+    // Carica la lista di domande dal database tramite una coroutine IO
     private suspend fun initQuestionList() = withContext(Dispatchers.IO) {
         try {
             Log.d("Game", "Loading questions from database")
@@ -28,20 +29,18 @@ class Game private constructor() {
         }
     }
 
-
-
-
-    private fun initPlayersList(players: ArrayList<String>){
-        for(name in players){
+    // Inizializza la lista dei giocatori con i nomi forniti
+    private fun initPlayersList(players: ArrayList<String>) {
+        for (name in players) {
             playersList.add(Player(name))
         }
-
     }
 
     companion object {
         @Volatile
         private var INSTANCE: Game? = null
 
+        // Restituisce l'istanza singleton di Game, creandone una nuova se non esiste già
         fun getInstance(): Game {
             return INSTANCE ?: synchronized(this) {
                 INSTANCE ?: Game().also {
@@ -51,6 +50,7 @@ class Game private constructor() {
         }
     }
 
+    // Configura il gioco con il contesto dell'applicazione, la lista dei giocatori e una callback da chiamare dopo il caricamento delle domande
     fun setGame(context: Context, players: ArrayList<String>, onQuestionsLoaded: () -> Unit) {
         applicationContext = context
 
@@ -62,44 +62,47 @@ class Game private constructor() {
         initPlayersList(players)
     }
 
-    public fun getQuestion(): Question? {
-
-        if(questionsList.size == 0){
-            return null
-        }else{
+    // Restituisce una domanda casuale rimuovendola dalla lista
+    fun getQuestion(): Question? {
+        return if (questionsList.isEmpty()) {
+            null
+        } else {
             val randomIndex = Random.nextInt(questionsList.size)
             val randomElement = questionsList[randomIndex]
             questionsList.removeAt(randomIndex)
-            return  randomElement
+            randomElement
         }
-
     }
 
-    public fun getCurrentPlayer(): Player {
+    // Restituisce il giocatore corrente
+    fun getCurrentPlayer(): Player {
         return playersList[turn]
     }
 
-    public fun getCurrentTurn(): Int {
+    // Restituisce il turno corrente
+    fun getCurrentTurn(): Int {
         return turn
     }
 
-    public fun nextTurn() {
+    // Passa al turno successivo
+    fun nextTurn() {
         turn = (turn + 1) % playersList.size
     }
 
-    public fun getPlayerList(): ArrayList<Player> {
+    // Restituisce la lista dei giocatori
+    fun getPlayerList(): ArrayList<Player> {
         return playersList
     }
 
-    public fun getLeaderboard(): ArrayList<Player> {
+    // Restituisce la classifica dei giocatori ordinata per punteggio decrescente
+    fun getLeaderboard(): ArrayList<Player> {
         return ArrayList(playersList.sortedByDescending { it.getScore() })
     }
 
-
-    public fun resetGame() {
+    // Reimposta il gioco, cancellando domande, giocatori e azzerando il turno
+    fun resetGame() {
         questionsList.clear()
         playersList.clear()
         turn = 0
     }
-
 }

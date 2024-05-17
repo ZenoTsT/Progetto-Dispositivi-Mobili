@@ -1,5 +1,6 @@
 package com.example.trivia
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -12,6 +13,7 @@ import android.os.Looper
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import kotlin.math.abs
 import kotlin.math.round
 
@@ -34,9 +36,11 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
 
     private var direction = ""
 
+    // Inizializza i componenti dell'interfaccia, il sensore e genera una nuova istruzione
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass_minigame)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) { override fun handleOnBackPressed() {} })
 
         game = Game.getInstance()
 
@@ -56,6 +60,7 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    // Registra il listener del sensore quando l'attività riprende
     override fun onResume() {
         super.onResume()
         rotationVectorSensor?.also { sensor ->
@@ -63,11 +68,13 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
+    // Annulla la registrazione del listener del sensore quando l'attività è in pausa
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
 
+    // Aggiorna l'azimuth corrente e la rotazione della freccia del nord ogni volta che sensore registra un cambiamento
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_ROTATION_VECTOR) {
             val rotationMatrix = FloatArray(9)
@@ -81,23 +88,17 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
 
             currentAzimuth = currentAzimuth % 360
 
-            // Round azimuth to nearest integer
             val roundedAzimuth = round(currentAzimuth).toInt()
-
-            // Update north arrow rotation
             northArrow.rotation = -roundedAzimuth.toFloat()
-
-            // Player arrow should remain pointing up (0 degrees rotation)
             playerArrow.rotation = 0f
         }
     }
 
-    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // Implement if needed
-    }
+    // Non utilizzata in questo contesto, ma deve essere implementata
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
+    // Genera una nuova istruzione casuale per il giocatore
     private fun generateNewInstruction() {
-
         currentAzimuth = 0.0f
 
         val isClockwise = (0..100).random()
@@ -119,6 +120,7 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         targetAngle = round(targetAngle).toInt().toFloat()
     }
 
+    // Controlla l'angolo scelto dal giocatore confrontando l'azimuth corrente con l'angolo target
     private fun checkResult() {
         val roundedAzimuth = round(currentAzimuth).toInt()
         val roundedTargetAngle = round(targetAngle).toInt()
@@ -130,7 +132,6 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
             resultTextView.text = "You win!"
             val lastPlayer = game.getLeaderboard().size - 1
             game.getLeaderboard()[lastPlayer].addPoints(2)
-
         } else {
             resultTextView.text = "You lose"
         }
@@ -138,12 +139,11 @@ class CompassMinigameActivity : AppCompatActivity(), SensorEventListener {
         Handler(Looper.getMainLooper()).postDelayed({
             returnToGameActivity()
         }, 2000)
-
     }
 
+    // Torna alla GameActivity
     private fun returnToGameActivity(){
         val intent = Intent(this, GameActivity::class.java)
         startActivity(intent)
     }
-
 }

@@ -5,9 +5,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.regex.Pattern
 
-
 @Entity(tableName = "questions")
-class Question (
+class Question(
     @PrimaryKey
     val id: Int,
 
@@ -19,19 +18,20 @@ class Question (
 
     @ColumnInfo(name = "incorrect_answers")
     val incorrectAnswers: String
+) {
 
-)
-
-{
-    public fun getQuestionText(): String {
-        return  question
+    // Restituisce il testo della domanda
+    fun getQuestionText(): String {
+        return question
     }
 
-    public fun getCorrectAnswerText(): String {
-        return  correctAnswer
+    // Restituisce il testo della risposta corretta
+    fun getCorrectAnswerText(): String {
+        return correctAnswer
     }
 
-    public fun getIncorrectAnswersText(): ArrayList<String> {
+    // Estrae e restituisce le risposte errate come lista di stringhe
+    fun getIncorrectAnswersText(): ArrayList<String> {
         val regex = Pattern.compile("\"([^\"]*)\"")
         val matcher = regex.matcher(incorrectAnswers)
         val results = ArrayList<String>()
@@ -43,8 +43,8 @@ class Question (
         return results
     }
 
+    // Restituisce una rappresentazione della domanda come stringa
     override fun toString(): String {
         return "ID: $id, question: $question, correct answer: $correctAnswer, incorrect answers: $incorrectAnswers"
     }
-
 }

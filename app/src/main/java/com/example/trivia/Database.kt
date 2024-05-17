@@ -12,6 +12,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         @Volatile private var instance: AppDatabase? = null
 
+        // Restituisce l'istanza del database, creandone una nuova se non esiste già
         fun getInstance(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(
@@ -26,4 +27,3 @@ abstract class AppDatabase : RoomDatabase() {
 
     }
 }
-

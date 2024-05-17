@@ -1,6 +1,6 @@
 package com.example.trivia
 
-class Player (name: String){
+class Player(name: String) {
 
     private val name: String
 
@@ -10,16 +10,18 @@ class Player (name: String){
         this.name = name
     }
 
-    public fun addPoints (pointsToAdd: Int){
-        this.score = this.score + pointsToAdd
+    // Aggiunge punti al punteggio del giocatore
+    fun addPoints(pointsToAdd: Int) {
+        this.score += pointsToAdd
     }
 
-    public fun getName(): String {
+    // Restituisce il nome del giocatore
+    fun getName(): String {
         return name
     }
 
-    public fun getScore(): Int {
+    // Restituisce il punteggio del giocatore
+    fun getScore(): Int {
         return score
     }
-
 }

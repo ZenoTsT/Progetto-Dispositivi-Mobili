@@ -13,7 +13,6 @@
         android:src="@drawable/ball"
         android:contentDescription="Ball" />
 
-    <!-- Canestri -->
     <ImageView
         android:id="@+id/backboard1"
         android:layout_width="100dp"
@@ -55,7 +54,6 @@
         android:paddingBottom="16dp"
         android:textColor="@color/medium_gray"/>
 
-    <!-- Testo del risultato -->
     <TextView
         android:id="@+id/resultTextView"
         android:layout_width="wrap_content"

@@ -8,7 +8,6 @@
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
-    <!-- Testo delle istruzioni -->
     <TextView
         android:id="@+id/instructionTextView"
         android:layout_width="wrap_content"
@@ -21,7 +20,6 @@
         android:textStyle="bold"
         android:text="Take a photo of something" />
 
-    <!-- Testo del risultato -->
     <TextView
         android:id="@+id/resultTextView"
         android:layout_width="wrap_content"
@@ -32,7 +30,6 @@
         android:textColor="@color/medium_gray"
         android:visibility="gone" />
 
-    <!-- Layout per mostrare l'immagine catturata -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,7 +45,6 @@
             android:scaleType="centerCrop" />
     </FrameLayout>
 
-    <!-- Pulsante per scattare la foto -->
     <Button
         android:id="@+id/btnTakePhoto"
         android:layout_width="wrap_content"

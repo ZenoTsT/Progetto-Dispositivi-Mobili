@@ -1,5 +1,6 @@
 package com.example.trivia
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -22,6 +23,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import kotlin.random.Random
 
@@ -40,11 +42,13 @@ class GameActivity : AppCompatActivity() {
 
     private var currentPlayer: Player? = null
 
-    private val minigameList: ArrayList<String> = arrayListOf("compass","ball","photo")
+    private val minigameList: ArrayList<String> = arrayListOf("compass", "ball", "photo")
 
+    // Inizializza l'attività, imposta il listener dei pulsanti e carica la prima domanda e il turno del giocatore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) { override fun handleOnBackPressed() {} })
 
         game = Game.getInstance()
 
@@ -83,11 +87,10 @@ class GameActivity : AppCompatActivity() {
 
         loadQuestion()
         loadPlayerTurn()
-
     }
 
+    // Controlla se la risposta selezionata è corretta, gestisce la logica del turno e avvia un minigioco se necessario
     private fun checkAnswer(selectedButton: Button) {
-
         val correctAnswer = currentQuestion!!.getCorrectAnswerText()
         val isCorrect = selectedButton.text.toString() == correctAnswer
 
@@ -104,13 +107,13 @@ class GameActivity : AppCompatActivity() {
 
         game.nextTurn()
 
-        if(game.getCurrentTurn() % game.getLeaderboard().size == 0){
+        if (game.getCurrentTurn() % game.getLeaderboard().size == 0) {
             val randomIndex = Random.nextInt(minigameList.size)
             val randomGame = minigameList[randomIndex]
             val intent = Intent(this, MinigameIntroductionActivity::class.java)
             intent.putExtra("minigameName", randomGame)
             startActivity(intent)
-        }else{
+        } else {
             Handler(Looper.getMainLooper()).postDelayed({
                 loadQuestion()
                 loadPlayerTurn()
@@ -118,30 +121,33 @@ class GameActivity : AppCompatActivity() {
                 enableButtons()
             }, 1000)
         }
-
     }
 
+    // Disabilita i pulsanti delle risposte
     private fun disableButtons() {
         val buttons = listOf(buttonAnswer1, buttonAnswer2, buttonAnswer3, buttonAnswer4)
         buttons.forEach { it.isEnabled = false }
     }
 
+    // Abilita i pulsanti delle risposte
     private fun enableButtons() {
         val buttons = listOf(buttonAnswer1, buttonAnswer2, buttonAnswer3, buttonAnswer4)
         buttons.forEach { it.isEnabled = true }
     }
 
+    // Reimposta i colori dei pulsanti delle risposte
     private fun resetButtonColors() {
         val buttons = listOf(buttonAnswer1, buttonAnswer2, buttonAnswer3, buttonAnswer4)
         buttons.forEach { it.setBackgroundColor(getColor(R.color.lilla)) }
     }
 
+    // Carica una nuova domanda e aggiorna le risposte sui pulsanti
     private fun loadQuestion() {
         currentQuestion = game.getQuestion()
 
-        if(currentQuestion == null){
+        if (currentQuestion == null) {
             openEndGameActivity()
-        }else{
+        } else {
             textViewQuestion.text = currentQuestion!!.getQuestionText()
             val correctAnswer = currentQuestion!!.getCorrectAnswerText()
             val incorrectAnswers = currentQuestion!!.getIncorrectAnswersText()
@@ -159,6 +165,7 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    // Carica il nome del giocatore corrente e aggiorna la vista del turno
     private fun loadPlayerTurn() {
         currentPlayer = game.getCurrentPlayer()
 
@@ -175,15 +182,12 @@ class GameActivity : AppCompatActivity() {
 
         textViewCurrentPlayer.text = spannable
         textViewCurrentPlayer.setTextColor(ContextCompat.getColor(applicationContext, R.color.medium_gray))
-
     }
 
-
-
+    // Apre la finestra di dialogo della classifica
     private fun openLeaderboard() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_leaderboard)
-
         dialog.window?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(applicationContext, R.color.light_gray)))
 
         val listView = dialog.findViewById<ListView>(R.id.leaderboard_list)
@@ -200,7 +204,7 @@ class GameActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
+    // Mostra la finestra di conferma per terminare il gioco
     private fun showEndGameConfirmation() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.endgame_dialog, null)
         val dialog = AlertDialog.Builder(this)
@@ -219,7 +223,7 @@ class GameActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
+    // Apre l'attività di fine gioco
     private fun openEndGameActivity() {
         val intent = Intent(this, EndGameActivity::class.java)
         startActivity(intent)

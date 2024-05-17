@@ -1,6 +1,5 @@
 package com.example.trivia
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -13,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -30,7 +30,6 @@ class PhotoMinigameActivity : AppCompatActivity() {
     private lateinit var takePictureLauncher: ActivityResultLauncher<Void?>
     private val requiredPercentage = 3
 
-    // Definisci i range di colore tenendo conto delle varianti scure e chiare
     private val colorRanges = mapOf(
         "Red" to listOf(Triple(180..255, 0..80, 0..80)),
         "Yellow" to listOf(Triple(180..255, 180..255, 0..120)),
@@ -39,11 +38,13 @@ class PhotoMinigameActivity : AppCompatActivity() {
         "White" to listOf(Triple(200..255, 200..255, 200..255))
     )
 
-    private lateinit var selectedColor: String // Colore selezionato casualmente
+    private lateinit var selectedColor: String
 
+    // Inizializza l'attività, imposta il listener dei pulsanti, seleziona un colore casuale all'avvio e gestisce la logica del fine gioco
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo_minigame)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) { override fun handleOnBackPressed() {} })
 
         game = Game.getInstance()
 
@@ -52,7 +53,6 @@ class PhotoMinigameActivity : AppCompatActivity() {
         resultTextView = findViewById(R.id.resultTextView)
         val btnTakePhoto: Button = findViewById(R.id.btnTakePhoto)
 
-        // Seleziona un colore casuale all'avvio
         selectedColor = colorRanges.keys.random()
         instructionTextView.text = "Take a photo of something $selectedColor"
 
@@ -72,11 +72,9 @@ class PhotoMinigameActivity : AppCompatActivity() {
                 }
                 resultTextView.visibility = TextView.VISIBLE
 
-
                 Handler(Looper.getMainLooper()).postDelayed({
                     returnToGameActivity()
                 }, 2000)
-
             }
         }
 
@@ -85,6 +83,7 @@ class PhotoMinigameActivity : AppCompatActivity() {
         }
     }
 
+    // Controlla il permesso per la fotocamera e avvia l'intent per scattare una foto
     private fun checkCameraPermissionAndOpenCamera() {
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
@@ -93,6 +92,7 @@ class PhotoMinigameActivity : AppCompatActivity() {
         }
     }
 
+    // Gestisce il risultato della richiesta di permesso per la fotocamera
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
@@ -104,6 +104,7 @@ class PhotoMinigameActivity : AppCompatActivity() {
         }
     }
 
+    // Avvia l'intent per scattare una foto
     private fun dispatchTakePictureIntent() {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         if (takePictureIntent.resolveActivity(packageManager) != null) {
@@ -113,12 +114,12 @@ class PhotoMinigameActivity : AppCompatActivity() {
         }
     }
 
+    // Verifica se il colore specificato è presente in almeno il 3% dell'immagine campionando ogni 4 pixel
     private fun isColorPresent(bitmap: Bitmap, colorName: String): Boolean {
         val targetRanges = colorRanges[colorName] ?: return false
         var matchCount = 0
         val totalPixels = bitmap.width * bitmap.height
 
-        // Sample every 4 pixels (downsample)
         for (x in 0 until bitmap.width step 4) {
             for (y in 0 until bitmap.height step 4) {
                 val pixelColor = bitmap.getPixel(x, y)
@@ -130,15 +131,15 @@ class PhotoMinigameActivity : AppCompatActivity() {
                 }
             }
         }
-        // Adjust total pixels to reflect the downsampling
+
         val sampledPixels = (bitmap.width / 4) * (bitmap.height / 4)
         val percentage = (matchCount.toDouble() / sampledPixels) * 100
         return percentage >= requiredPercentage
     }
 
-    private fun returnToGameActivity(){
+    // Torna alla GameActivity
+    private fun returnToGameActivity() {
         val intent = Intent(this, GameActivity::class.java)
         startActivity(intent)
     }
-
 }

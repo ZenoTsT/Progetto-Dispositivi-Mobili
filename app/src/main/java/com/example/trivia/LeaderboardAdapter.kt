@@ -10,10 +10,7 @@ import androidx.core.content.ContextCompat
 
 class LeaderboardAdapter(context: Context, players: List<Player>, private val isEndGame: Boolean) : ArrayAdapter<Player>(context, 0, players) {
 
-    private val goldColor = ContextCompat.getColor(context, R.color.gold)
-    private val silverColor = ContextCompat.getColor(context, R.color.silver)
-    private val bronzeColor = ContextCompat.getColor(context, R.color.bronze)
-
+    // Restituisce una vista per un elemento della classifica
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val listItemView = convertView ?: LayoutInflater.from(context).inflate(R.layout.list_item_leaderboard, parent, false)
 
@@ -21,9 +18,9 @@ class LeaderboardAdapter(context: Context, players: List<Player>, private val is
         listItemView.findViewById<TextView>(R.id.rank).apply {
 
             var truePosition = 0
-            if(!isEndGame){
+            if (!isEndGame) {
                 truePosition = position + 1
-            }else{
+            } else {
                 truePosition = position + 4
             }
 

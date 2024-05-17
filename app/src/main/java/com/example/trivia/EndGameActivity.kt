@@ -1,11 +1,13 @@
 package com.example.trivia
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 
 class EndGameActivity : AppCompatActivity() {
@@ -23,9 +25,12 @@ class EndGameActivity : AppCompatActivity() {
     private lateinit var leaderboardList: ListView
     private lateinit var homeButton: Button
     private lateinit var restartButton: Button
+
+    // Inizializza l'attività, imposta i listener dei pulsanti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.endgame_activity)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) { override fun handleOnBackPressed() {} })
 
         homeButton = findViewById(R.id.button_home)
         restartButton = findViewById(R.id.button_restart)
@@ -44,6 +49,7 @@ class EndGameActivity : AppCompatActivity() {
         }
     }
 
+    // Inizializza le viste del podio e della classifica
     private fun initViews() {
         firstPlaceRankTextView = findViewById(R.id.rank_first)
         firstPlaceNameTextView = findViewById(R.id.player_name_first)
@@ -57,6 +63,7 @@ class EndGameActivity : AppCompatActivity() {
         leaderboardList = findViewById(R.id.leaderboard_list)
     }
 
+    // Aggiorna le informazioni sul podio con i primi tre giocatori
     private fun updatePodium() {
         val topPlayers = game.getLeaderboard().take(3)
         topPlayers.getOrNull(0)?.let {
@@ -76,12 +83,14 @@ class EndGameActivity : AppCompatActivity() {
         }
     }
 
+    // Configura la classifica con i giocatori rimanenti
     private fun setupLeaderboard() {
         val remainingPlayers = game.getLeaderboard().drop(3)
         val adapter = LeaderboardAdapter(this, remainingPlayers, true)
         leaderboardList.adapter = adapter
     }
 
+    // Disabilita i pulsanti e torna alla pagina principale
     private fun toHomePage() {
         disableButtons()
         game.resetGame()
@@ -89,7 +98,8 @@ class EndGameActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun restartGame(){
+    // Disabilita i pulsanti e riavvia il gioco con gli stessi giocatori
+    private fun restartGame() {
         disableButtons()
         val playerNames = game.getPlayerList().map { it.getName() }.toCollection(ArrayList())
         game.resetGame()
@@ -99,9 +109,9 @@ class EndGameActivity : AppCompatActivity() {
         }
     }
 
+    // Disabilita i pulsanti per evitare doppi click
     private fun disableButtons() {
         val buttons = listOf(homeButton, restartButton)
         buttons.forEach { it.isEnabled = false }
     }
-
 }

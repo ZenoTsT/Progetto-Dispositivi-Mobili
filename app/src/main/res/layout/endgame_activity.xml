@@ -17,7 +17,6 @@
         android:layout_marginTop="15dp"
         android:textStyle="bold"/>
 
-    <!-- First Place Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,7 +53,6 @@
             android:textColor="@color/gold"/>
     </LinearLayout>
 
-    <!-- Second Place Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,7 +89,6 @@
             android:textColor="@color/silver"/>
     </LinearLayout>
 
-    <!-- Third Place Layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,7 +125,6 @@
             android:textColor="@color/bronze"/>
     </LinearLayout>
 
-    <!-- Remaining Leaderboard List -->
     <ListView
         android:id="@+id/leaderboard_list"
         android:layout_width="300dp"
@@ -137,7 +133,6 @@
         android:layout_marginTop="50dp"
         android:layout_gravity="center"/>
 
-    <!-- Home and Restart Buttons Layout -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
